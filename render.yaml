@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: bot-archivador
+    runtime: python3
+    plan: free
+    pythonVersion: "3.11.9"
+    buildCommand: >
+      apt-get install -y --no-install-recommends ffmpeg p7zip-full &&
+      pip install -r requirements.txt &&
+      pip install -U yt-dlp
+    startCommand: python bot.py
+    healthCheckPath: /
+    disk:
+      name: bot-data
+      mountPath: /opt/render/project/src
+      sizeGB: 1
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_API_ID
+        sync: false
+      - key: TELEGRAM_API_HASH
+        sync: false
+      - key: TELEGRAM_ADMIN_ID
+        sync: false
+      - key: TELEGRAM_ADMIN_USERNAME
+        sync: false
+      - key: ARCHIVE_ORG_ACCESS_KEY
+        sync: false
+      - key: ARCHIVE_ORG_SECRET_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11.9"
